@@ -62,6 +62,7 @@ const DeliveryChallan: React.FC = () => {
     const [submitted, setSubmitted] = useState<boolean>(false);
     const [companyDetails, setCompanyDetails] = useState<CompanyDetails | null>(null);
     const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
+    const updatedAvailableItems = [...availableItems];
 
     useEffect(() => {
         const fetchItems = async () => {
@@ -130,7 +131,6 @@ const DeliveryChallan: React.FC = () => {
             }));
 
             // Deduct the quantity from the available items
-            const updatedAvailableItems = [...availableItems];
             updatedAvailableItems[selectedItemIndex].quantity -= quantity;
 
             setAvailableItems(updatedAvailableItems);
@@ -165,11 +165,14 @@ const DeliveryChallan: React.FC = () => {
         } else {
             setSubmitted(true);
         }
-        
 
         try {
-            const response = await axios.post(`${API_URL}/api/dchallan`, deliveryChallanData);
-            console.log('Delivery Challan submitted successfully:', response.data);
+            await axios.post(`${API_URL}/api/dchallan`, {
+                dchallan: deliveryChallanData,
+                stockUpdates: updatedAvailableItems,
+            }, {
+                headers: { 'Content-Type': 'application/json' }
+            });
         } catch (error) {
             console.error('Error submitting Delivery Challan:', error);
         }

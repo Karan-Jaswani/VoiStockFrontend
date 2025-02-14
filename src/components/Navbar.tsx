@@ -1,5 +1,5 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
@@ -71,7 +71,7 @@ export const Navbar: React.FC = () => {
 
     return (
         <Disclosure as="nav" className="bg-gray-800">
-            <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-full px-2 sm:px-6 lg:px-8">
                 <div className="relative flex h-16 items-center justify-between">
                     <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                         {/* Mobile menu button */}
@@ -92,7 +92,7 @@ export const Navbar: React.FC = () => {
                                 />
                             </a>
                         </div>
-                        <div className="hidden mt-3 sm:ml-6 sm:block">
+                        <div className="hidden mt-4 sm:ml-6 sm:block">
                             <div className="flex space-x-4">
                                 {navigation.map((item) => (
                                     <a
@@ -111,14 +111,14 @@ export const Navbar: React.FC = () => {
                         </div>
                     </div>
                     <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                        <button
+                        {/* <button
                             type="button"
                             className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
                         >
                             <span className="absolute -inset-1.5" />
                             <span className="sr-only">View notifications</span>
                             <BellIcon aria-hidden="true" className="size-6" />
-                        </button>
+                        </button> */}
 
                         {/* Profile dropdown */}
                         <Menu as="div" className="relative ml-3">

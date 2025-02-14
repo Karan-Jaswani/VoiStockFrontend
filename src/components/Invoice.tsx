@@ -167,6 +167,7 @@ const Invoice: React.FC = () => {
       setItems(updatedItems);
       setSelectedItemId(null);
       setQuantity(1);
+      console.log(items)
     }
   };
 
@@ -204,18 +205,27 @@ const Invoice: React.FC = () => {
     }
 
     try {
-      await axios.post(`${API_URL}/api/invoice`, invoiceData, {
+      console.log(items)
+      // Send both invoice data and stock updates in a single request
+      await axios.post(`${API_URL}/api/invoice`, {
+        invoice: invoiceData,
+        stockUpdates: items,
+      }, {
         headers: { 'Content-Type': 'application/json' }
       });
-      console.log("Invoice submitted successfully.");
+
+      console.log("Invoice submitted and stock updated successfully.");
+      // Optionally reset form or show success message
     } catch (error) {
       console.error("Error during submission:", error);
+      alert("Failed to submit invoice. Please try again.");
     }
   };
 
   const handlePrint = () => {
     window.print();
   };
+
   return (
     <div className="w-full p-4 sm:p-8 bg-white rounded-lg shadow-lg mx-auto">
       {!submitted ? (
