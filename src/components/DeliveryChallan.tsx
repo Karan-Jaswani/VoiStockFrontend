@@ -61,13 +61,14 @@ const DeliveryChallan: React.FC = () => {
     const [quantity, setQuantity] = useState<number>(1);
     const [submitted, setSubmitted] = useState<boolean>(false);
     const [companyDetails, setCompanyDetails] = useState<CompanyDetails | null>(null);
+    const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
 
     useEffect(() => {
         const fetchItems = async () => {
             try {
 
                 // Fetch user data based on userId
-                const companyResponse = await axios.get(`http://localhost:8080/api/auth/user/${userId}`);
+                const companyResponse = await axios.get(`${API_URL}/api/auth/user/${userId}`);
 
                 if (companyResponse.data) {
                     // Map response data to state
@@ -85,7 +86,7 @@ const DeliveryChallan: React.FC = () => {
                     })
                 }
 
-                const response = await axios.get(`http://localhost:8080/api/stocks/${userId}`);
+                const response = await axios.get(`${API_URL}/api/stocks/${userId}`);
                 setAvailableItems(response.data);
             } catch (error) {
                 console.error("Error fetching items:", error);
@@ -93,7 +94,7 @@ const DeliveryChallan: React.FC = () => {
         };
 
         fetchItems();
-    }, [userId]);
+    }, [userId, API_URL]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -167,7 +168,7 @@ const DeliveryChallan: React.FC = () => {
         
 
         try {
-            const response = await axios.post('http://localhost:8080/api/dchallan', deliveryChallanData);
+            const response = await axios.post(`${API_URL}/api/dchallan`, deliveryChallanData);
             console.log('Delivery Challan submitted successfully:', response.data);
         } catch (error) {
             console.error('Error submitting Delivery Challan:', error);

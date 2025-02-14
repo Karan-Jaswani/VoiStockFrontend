@@ -13,6 +13,7 @@ export const Signup = () => {
     const [message, setMessage] = useState("");
     const [showPassword] = useState(false); // State for password visibility
     const [termsChecked, setTermsChecked] = useState(false); // State for terms checkbox
+    const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
 
     // const apiUrl = process.env.REACT_APP_ENV === 'production'
     //     ? process.env.REACT_APP_LIVE_API
@@ -53,7 +54,7 @@ export const Signup = () => {
         if (!validateForm()) return; // If validation fails, do not proceed
 
         try {
-            const response = await fetch(`http://localhost:8080/api/auth/register`, {
+            const response = await fetch(`${API_URL}/api/auth/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -78,8 +79,8 @@ export const Signup = () => {
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50 px-4 sm:px-0 py-8">
             <div className="w-full max-w-md bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl transition-all">
                 <div className="mb-4 sm:mb-6 text-center">
-                    <h1 className="text-xl sm:text-2xl font-bold">Learn Without Limits</h1>
-                    <p className="mt-2 text-sm sm:text-base">Create your account and start learning today</p>
+                    <h1 className="text-xl sm:text-2xl font-bold">VoiStock</h1>
+                    <p className="mt-2 text-sm sm:text-base">Create your account and start managing your inventory today!</p>
                 </div>
 
                 <form onSubmit={handleSubmit}>

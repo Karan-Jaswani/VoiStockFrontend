@@ -7,6 +7,7 @@ export const VerifyOtp = () => {
     const email = location.state?.email; // Retrieve email from state
     const [otp, setOtp] = useState("");
     const [message, setMessage] = useState("");
+    const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
 
     // const apiUrl = process.env.REACT_APP_ENV === 'production'
     //     ? process.env.REACT_APP_LIVE_API
@@ -20,7 +21,7 @@ export const VerifyOtp = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch(`http://localhost:8080/api/auth/verify-otp`, {
+            const response = await fetch(`${API_URL}/api/auth/verify-otp`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -84,7 +85,7 @@ export const VerifyOtp = () => {
 
                     <div className="mt-4 sm:mt-6 text-center text-xs sm:text-sm">
                         Didn't receive the code?{" "}
-                        <a href="/" className="ml-1 font-medium text-blue-600 hover:text-blue-700">
+                        <a href="/signup" className="ml-1 font-medium text-blue-600 hover:text-blue-700">
                             Resend OTP
                         </a>
                     </div>

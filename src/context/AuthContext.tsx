@@ -37,10 +37,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [userId, setUserId] = useState(sessionStorage.getItem("userId"));
     const [userFirstName, setUserFirstName] = useState(sessionStorage.getItem("userFirstName"));
     const [userProfileUrl, setUserProfileUrl] = useState(sessionStorage.getItem("userProfileUrl"));
+    const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
 
     const login = async (email: string, password: string): Promise<boolean> => {
         try {
-            const response = await fetch("http://localhost:8080/api/auth/login", {
+            const response = await fetch(`${API_URL}/api/auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),

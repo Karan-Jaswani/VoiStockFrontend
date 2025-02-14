@@ -9,46 +9,50 @@ export const StockDashboard = () => {
     const [items, setItems] = useState<{ id?: number; brandName: string; itemName: string; batchNo: string; quantity: number; price: number}[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [itemToEdit, setItemToEdit] = useState<{ id?: number; brandName: string; itemName: string; batchNo: string; quantity: number; price: number } | null>(null);
-
+    const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
 
     // ✅ Fetch stock data when page loads
     useEffect(() => {
-        axios.get(`http://localhost:8080/api/stocks/${userId}`)  // Adjust the URL as per your backend
+        axios.get(`${API_URL}/api/stocks/${userId}`)  // Adjust the URL as per your backend
             .then(response => {
                 setItems(response.data);
             })
             .catch(error => console.error("Error fetching stock data:", error));
-    }, [userId]);
+    }, [userId, API_URL]);
 
     // ✅ Add or Update Stock Item
     const handleAddItem = async (newItem: { id?: number; brandName: string; itemName: string; batchNo: string; quantity: number; price: number }) => {
         try {
-            if (itemToEdit) {
-                // If item exists, update it
-                await axios.put(`http://localhost:8080/api/stocks/${itemToEdit.id}`, newItem);
-                setItems(items.map(item => (item.id === itemToEdit.id ? newItem : item)));
+            if (itemToEdit && itemToEdit.id) {  // Ensure itemToEdit and id exist
+                await axios.put(`${API_URL}/api/stocks/${itemToEdit.id}`, newItem);
+                setItems(items.map(item => (item.id === itemToEdit.id ? { ...newItem, id: itemToEdit.id } : item)));
                 setItemToEdit(null);
             } else {
-                // If new item, save to DB
-                const response = await axios.post(`http://localhost:8080/api/stocks/${userId}`, newItem);
-                setItems([...items, response.data]); // Update state with saved item
+                const response = await axios.post(`${API_URL}/api/stocks/${userId}`, newItem);
+                setItems([...items, response.data]);
             }
         } catch (error) {
             console.error("Error adding/updating item:", error);
         }
     };
 
+
     // ✅ Edit Item
     const handleEditItem = (item: { id?: number; brandName: string; itemName: string; batchNo: string; quantity: number; price: number }) => {
-        setItemToEdit(item);
-        setIsModalOpen(true);
+        if (item.id) {
+            setItemToEdit(item);
+            setIsModalOpen(true);
+        } else {
+            console.error("Error: Selected item has no ID.");
+        }
     };
+
 
     // ✅ Delete Item
     const handleDeleteItem = async (id: number | undefined) => {
         if (!id) return;
         try {
-            await axios.delete(`http://localhost:8080/api/stocks/${id}`);
+            await axios.delete(`${API_URL}/api/stocks/${id}`);
             setItems(items.filter(item => item.id !== id));
         } catch (error) {
             console.error("Error deleting item:", error);

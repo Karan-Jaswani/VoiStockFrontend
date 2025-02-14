@@ -23,6 +23,7 @@ export const UpdateCompanyDetails: React.FC = () => {
     const [companyData, setCompanyData] = useState<CompanyData | null>(null);
     const [isUpdating, setIsUpdating] = useState<boolean>(false);
     const [success, setSuccess] = useState<boolean>(false);
+    const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
 
 
     useEffect(() => {
@@ -30,7 +31,7 @@ export const UpdateCompanyDetails: React.FC = () => {
             try {
                 if (!userId) return;
 
-                const response = await axios.get(`http://localhost:8080/api/auth/user/${userId}`);
+                const response = await axios.get(`${API_URL}/api/auth/user/${userId}`);
 
                 if (response.data) {
                     setCompanyData({
@@ -53,7 +54,7 @@ export const UpdateCompanyDetails: React.FC = () => {
         };
 
         fetchCompanyData();
-    }, [userId]);
+    }, [userId, API_URL]);
 
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -64,7 +65,7 @@ export const UpdateCompanyDetails: React.FC = () => {
         const updatedCompanyData = Object.fromEntries(formData);
 
         try {
-            const response = await axios.put(`http://localhost:8080/api/auth/update/company/${userId}`, updatedCompanyData);
+            const response = await axios.put(`${API_URL}/api/auth/update/company/${userId}`, updatedCompanyData);
 
             if (response.status === 200) {
                 setSuccess(true);

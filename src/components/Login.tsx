@@ -13,9 +13,9 @@ export const Login = () => {
         e.preventDefault();
         const success = await login(email, password);
         if (success) {
-            navigate("/");
+            navigate("/dashboard");
         } else {
-            setError("Invalid email or password.");
+            setError("Invalid Email or Password.");
         }
     };
 
@@ -23,7 +23,7 @@ export const Login = () => {
         <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-indigo-100 to-purple-200">
             <div className="w-full max-w-sm bg-white rounded-lg shadow-xl p-8">
                 <div className="mb-8 text-center">
-                    <h1 className="text-3xl font-extrabold text-gray-800 mb-2">Learn Without Limits</h1>
+                    <h1 className="text-3xl font-extrabold text-gray-800 mb-2">VoiStock</h1>
                     <p className="text-neutral-600">Sign in to your account</p>
                 </div>
 

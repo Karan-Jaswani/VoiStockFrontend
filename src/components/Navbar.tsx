@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const navigation = [
-    { name: 'Dashboard', href: '/', current: true },
+    { name: 'Dashboard', href: '/dashboard', current: true },
     { name: 'Invoice', href: '/invoice', current: false },
     { name: 'View Invoices', href: '/show-invoices', current: false },
     { name: 'Delivery Challan', href: '/delivery-challan', current: false },
@@ -33,6 +33,8 @@ export const Navbar: React.FC = () => {
     const [userData, setUserData] = useState<UserData | null>(null);
     const { isAuthenticated } = useAuth();
     const navigate = useNavigate();
+    const APP_LOGO_URL = process.env.REACT_APP_LOGO_URL;
+    const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -40,7 +42,7 @@ export const Navbar: React.FC = () => {
                 if (!userId) return; // If there's no userId, stop execution
 
                 // Fetch user data based on userId
-                const response = await axios.get(`http://localhost:8080/api/auth/user/${userId}`);
+                const response = await axios.get(`${API_URL}/api/auth/user/${userId}`);
 
                 if (response.data) {
                     // Map response data to state
@@ -59,7 +61,7 @@ export const Navbar: React.FC = () => {
         };
 
         fetchUserData();
-    }, [userId]);
+    }, [userId, API_URL]);
 
     const handleLogout = () => {
         sessionStorage.clear();
@@ -85,7 +87,7 @@ export const Navbar: React.FC = () => {
                             <a href='/'>
                                 <img
                                     alt="Your Company"
-                                    src={"Voistock_Logo.png"}
+                                    src={APP_LOGO_URL}
                                     className="h-16 w-auto"
                                 />
                             </a>

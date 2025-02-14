@@ -23,17 +23,18 @@ export const CompanyDetails: React.FC = () => {
     // const apiUrl = process.env.REACT_APP_ENV === 'production'
     //     ? process.env.REACT_APP_LIVE_API
     //     : process.env.REACT_APP_LOCAL_API;
-
+    
     const [userData, setUserData] = useState<UserData | null>(null); // Set initial state to null
-
+    const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
+    
     useEffect(() => {
         const fetchUserData = async () => {
             try {
                 if (!userId) return; // If there's no userId, stop execution
 
                 // Fetch user data based on userId
-                const response = await axios.get(`http://localhost:8080/api/auth/user/${userId}`);
-
+                const response = await axios.get(`${API_URL}/api/auth/user/${userId}`);
+                console.log(API_URL)
                 if (response.data) {
                     // Map response data to state
                     setUserData({
@@ -56,7 +57,7 @@ export const CompanyDetails: React.FC = () => {
         };
 
         fetchUserData();
-    }, [userId]); // Add apiUrl to dependencies to ensure it updates if needed
+    }, [userId, API_URL]); // Add apiUrl to dependencies to ensure it updates if needed
 
     const handleUpdateProfile = () => {
         navigate("/update-company-details");

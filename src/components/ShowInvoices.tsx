@@ -34,12 +34,14 @@ const ShowInvoices: React.FC = () => {
     const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const { userId } = useAuth();
+    const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
 
     // Fetch all invoices from the backend
     useEffect(() => {
         const fetchInvoices = async () => {
             try {
-                const response = await axios.get<Invoice[]>(`http://localhost:8080/api/invoice/${userId}`);
+                console.log(API_URL)
+                const response = await axios.get<Invoice[]>(`${API_URL}/api/invoice/${userId}`);
                 setInvoices(response.data || []); // Ensure it's always an array
             } catch (error) {
                 setInvoices([]); // Fallback to empty array
@@ -49,7 +51,7 @@ const ShowInvoices: React.FC = () => {
         };
 
         fetchInvoices();
-    }, [userId]);
+    }, [userId, API_URL]);
 
     // Print the invoice
     const handlePrint = () => {

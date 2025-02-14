@@ -26,12 +26,13 @@ const ShowDeliveryChallans: React.FC = () => {
     const [selectedChallan, setSelectedChallan] = useState<DeliveryChallan | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const { userId } = useAuth();
+    const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
 
     // Fetch all delivery challans from the backend
     useEffect(() => {
         const fetchDeliveryChallans = async () => {
             try {
-                const response = await axios.get<DeliveryChallan[]>(`http://localhost:8080/api/dchallan/${userId}`);
+                const response = await axios.get<DeliveryChallan[]>(`${API_URL}/api/dchallan/${userId}`);
                 setDeliveryChallans(response.data); // Set the delivery challans state
             } catch (error) {
                 console.error('Error fetching delivery challans:', error);
@@ -41,7 +42,7 @@ const ShowDeliveryChallans: React.FC = () => {
         };
 
         fetchDeliveryChallans();
-    }, [userId]); // Add userId to the dependency array
+    }, [userId, API_URL]); // Add userId to the dependency array
 
     // Print the delivery challan
     const handlePrint = () => {

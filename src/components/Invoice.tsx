@@ -55,13 +55,13 @@ const Invoice: React.FC = () => {
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [companyDetails, setCompanyDetails] = useState<CompanyDetails | null>(null);
   const { userId } = useAuth();
+  const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
-
         // Fetch user data based on userId
-        const companyResponse = await axios.get(`http://localhost:8080/api/auth/user/${userId}`);
+        const companyResponse = await axios.get(`${API_URL}/api/auth/user/${userId}`);
 
         if (companyResponse.data) {
           // Map response data to state
@@ -80,7 +80,7 @@ const Invoice: React.FC = () => {
           })
         }
 
-        const response = await fetch(`http://localhost:8080/api/stocks/${userId}`); // Replace with your API endpoint
+        const response = await fetch(`${API_URL}/api/stocks/${userId}`); // Replace with your API endpoint
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
         const data = await response.json();
@@ -102,7 +102,7 @@ const Invoice: React.FC = () => {
     };
 
     fetchItems();
-  }, [userId]);
+  }, [userId, API_URL]);
 
   const [formData, setFormData] = useState<FormData>({
     userId: 0,
@@ -204,7 +204,7 @@ const Invoice: React.FC = () => {
     }
 
     try {
-      await axios.post('http://localhost:8080/api/invoice', invoiceData, {
+      await axios.post(`${API_URL}/api/invoice`, invoiceData, {
         headers: { 'Content-Type': 'application/json' }
       });
       console.log("Invoice submitted successfully.");

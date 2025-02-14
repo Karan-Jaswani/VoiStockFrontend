@@ -14,18 +14,18 @@ interface UserData {
 export const UpdateProfile: React.FC = () => {
   const navigate = useNavigate();
   const userId = sessionStorage.getItem("userId");
-  console.log("User  ID:", userId); // Check if userId is valid
   const [userData, setUserData] = useState<UserData | null>(null);
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
+  const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         if (!userId) return;
 
-        const response = await axios.get(`http://localhost:8080/api/auth/user/${userId}`);
+        const response = await axios.get(`${API_URL}/api/auth/user/${userId}`);
 
         if (response.data) {
           // Map response data to state
@@ -44,7 +44,7 @@ export const UpdateProfile: React.FC = () => {
     };
 
     fetchUserData();
-  }, [userId]); // Corrected dependency array: Both userId and apiUrl
+  }, [userId, API_URL]); // Corrected dependency array: Both userId and apiUrl
 
   // Handle profile image selection
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,11 +67,11 @@ export const UpdateProfile: React.FC = () => {
         const imageForm = new FormData();
         imageForm.append("file", profileImage);
 
-        const uploadResponse = await axios.post(`http://localhost:8080/api/auth/upload`, imageForm, {
+        const uploadResponse = await axios.post(`${API_URL}/api/auth/upload`, imageForm, {
           headers: { "Content-Type": "multipart/form-data" }
         });
 
-        newProfileUrl = "http://localhost:8080/" + uploadResponse.data; // Remove const
+        newProfileUrl = uploadResponse.data; // Remove const
         console.log("Uploaded file URL:", newProfileUrl);
       }
 
@@ -86,7 +86,7 @@ export const UpdateProfile: React.FC = () => {
       };
 
       // Send update request
-      const response = await axios.put(`http://localhost:8080/api/auth/update/${userId}`, updatedUser);
+      const response = await axios.put(`${API_URL}/api/auth/update/${userId}`, updatedUser);
 
       if (response.status === 200) {
         setSuccess(true);
@@ -121,7 +121,8 @@ export const UpdateProfile: React.FC = () => {
                     <img src={userData.userProfileUrl} alt="Profile" className="w-full h-full object-cover" />
                   </div>
                   <label htmlFor="profilePhoto" className="absolute left-0 bottom-0 right-0 bg-blue-600 p-2 rounded-full cursor-pointer hover:bg-blue-700 transition-colors">
-                    <span className="material-symbols-outlined text-white">Upload Photo</span>
+                    <span className="material-symbols-outlined ps-4 text-white">Upload</span>
+                    <span className="ps-1 text-white pb-6">Photo</span>
                     <input type="file" id="profilePhoto" name="profilePhoto" className="hidden" accept="image/*" onChange={handleImageChange} />
                   </label>
                 </div>
