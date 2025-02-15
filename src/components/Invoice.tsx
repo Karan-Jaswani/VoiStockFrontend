@@ -193,7 +193,11 @@ const Invoice: React.FC = () => {
       freight: parseFloat(formData.freight || "0"),
       totalAmount: parseFloat(formData.totalAmount),
       amountInWords: formData.amountInWords,
-      signature: formData.signature
+      signature: formData.signature,
+      stockName: formData.items.map(item => item.itemName), // Extract item names
+      stockQuantity: formData.items.map(item => item.quantity), // Extract quantities
+      stockRate: formData.items.map(item => item.rate), // Extract rates
+      stockAmount: formData.items.map(item => item.amount), // Extract amounts
     };
     
     if (formData.items.length < 1) {

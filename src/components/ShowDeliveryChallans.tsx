@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 
 interface DeliveryChallan {
@@ -171,6 +171,11 @@ const ShowDeliveryChallans: React.FC = () => {
             <h1 className="text-2xl font-bold mb-4">Delivery Challans</h1>
             {loading ? (
                 <p>Loading delivery challans...</p>
+            ) : deliveryChallans.length === 0 ? (
+                <div className=''>
+                    <p className=''>You Don't Have Any Delivery Challan.</p>
+                    <a href='/delivery-challan'><button className='mt-3 bg-blue-600 text-white rounded hover:bg-blue-700 w-full sm:w-auto p-2'>Create Delivery Challan</button></a>
+                </div>
             ) : (
                 <ul className="flex flex-col sm:flex-row sm:flex-wrap sm:space-x-4">
                     {deliveryChallans.map(challan => (

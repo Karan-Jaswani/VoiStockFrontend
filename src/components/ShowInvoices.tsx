@@ -43,6 +43,7 @@ const ShowInvoices: React.FC = () => {
                 console.log(API_URL)
                 const response = await axios.get<Invoice[]>(`${API_URL}/api/invoice/${userId}`);
                 setInvoices(response.data || []); // Ensure it's always an array
+                console.log("DATA CAME : ", response.data)
             } catch (error) {
                 setInvoices([]); // Fallback to empty array
             } finally {
@@ -225,6 +226,11 @@ const ShowInvoices: React.FC = () => {
             <h1 className="text-2xl font-bold mb-4">Invoices</h1>
             {loading ? (
                 <p>Loading invoices...</p>
+            ) : invoices.length===0 ? (
+                    <div className=''>
+                        <p className=''>You Don't Have Any Invoices.</p>
+                        <a href='/invoice'><button className='mt-3 bg-blue-600 text-white rounded hover:bg-blue-700 w-full sm:w-auto p-2'>Create Invoice</button></a>
+                    </div>
             ) : (
                 <ul className="flex flex-col sm:flex-row sm:flex-wrap sm:space-x-4">
                     {invoices.map(invoice => (

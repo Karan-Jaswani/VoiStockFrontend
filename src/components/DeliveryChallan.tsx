@@ -140,10 +140,10 @@ const DeliveryChallan: React.FC = () => {
             setQuantity(1);
         }
     };
-    
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        
+
         const deliveryChallanData = {
             userId: formData.userId,
             challanNo: formData.challanNo,
@@ -157,7 +157,7 @@ const DeliveryChallan: React.FC = () => {
             itemQuantity: formData.items.map(item => item.quantity),
             signature: formData.signature
         };
-        
+
         if (deliveryChallanData.itemName.length < 1) {
             alert("Please Add Atleast 1 Item.");
             setSubmitted(false);
