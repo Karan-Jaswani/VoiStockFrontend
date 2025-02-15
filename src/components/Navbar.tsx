@@ -66,15 +66,9 @@ export const Navbar: React.FC = () => {
 
     const handleLogout = () => {
         sessionStorage.clear();
-<<<<<<< HEAD
         setUserData(null); // Clear user data on logout
         setAuthStatus(false);
         navigate("/");
-=======
-        setUserData(null);
-
-        navigate("/")
->>>>>>> 3bc9eb0 (Test commit)
     };
 
     return (
