@@ -136,17 +136,17 @@ export const UpdateProfile: React.FC = () => {
 
                 <div>
                   <label className="block text-sm font-medium mb-2">Email Address</label>
-                  <input type="email" name="email" defaultValue={userData.userEmail} className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all" placeholder="Enter your email" disabled />
+                  <input type="email" required name="email" defaultValue={userData.userEmail} className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all" placeholder="Enter your email" disabled />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium mb-2">Phone Number</label>
-                  <input type="tel" name="phone" defaultValue={userData.userPhonenum} className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all" placeholder="Enter your phone number" />
+                  <input type="tel" required name="phone" defaultValue={userData.userPhonenum} className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all" placeholder="Enter your phone number" />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium mb-2">Username</label>
-                  <input type="text" name="username" defaultValue={userData.username} className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all" placeholder="Choose a username" />
+                  <input type="text" required  name="username" defaultValue={userData.username} className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all" placeholder="Choose a username" />
                 </div>
 
                 <div>

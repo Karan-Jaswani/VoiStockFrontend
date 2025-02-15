@@ -12,6 +12,7 @@
     "adj": "^0.0.1-beta.1",
     "axios": "^1.7.9",
     "cra-template-typescript": "1.2.0",
+    "invoice_app": "file:",
     "js-cookie": "^3.0.5",
     "js-cookies": "^1.0.4",
     "localtunnel": "^2.0.2",
