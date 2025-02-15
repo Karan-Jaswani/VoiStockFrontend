@@ -14,6 +14,7 @@ interface UserData {
  // Ensure this is not an empty string
 export const Profile: React.FC = () => {
     const navigate = useNavigate();
+    const { setAuthStatus } = useAuth();
     const userId = sessionStorage.getItem("userId"); // Ensure this value is stored correctly
     // const apiUrl = process.env.REACT_APP_ENV === 'production'
     //     ? process.env.REACT_APP_LIVE_API
@@ -53,6 +54,7 @@ export const Profile: React.FC = () => {
     const handleLogout = () => {
         sessionStorage.clear();
         setUserData(null);
+        setAuthStatus(false);
         navigate("/");
     };
 
