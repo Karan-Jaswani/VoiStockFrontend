@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 // Define the shape of the context value
 interface AuthContextType {
@@ -13,7 +13,7 @@ interface AuthContextType {
     userProfileUrl: string | null;
     login: (email: string, password: string) => Promise<boolean>;
     logout: () => void;
-    setUserProfileUrl: (url: string | null) => void; // Corrected property name
+    setUserProfileUrl: (url: string | null) => void;
 }
 
 // Create the context with a default value of null
@@ -24,20 +24,35 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-    // Check if auth token is available in sessionStorage
-    const [isAuthenticated, setIsAuthenticated] = useState(
-        !!sessionStorage.getItem("authToken")
-    );
-    // Get user details from sessionStorage
-    const [userEmail, setUserEmail] = useState(sessionStorage.getItem("userEmail"));
-    const [userName, setUserName] = useState(sessionStorage.getItem("userName"));
-    const [userToken, setUserToken] = useState(sessionStorage.getItem("authToken"));
-    const [userState, setUserState] = useState(sessionStorage.getItem("userState"));
-    const [userPhonenum, setUserPhonenum] = useState(sessionStorage.getItem("userPhonenum"));
-    const [userId, setUserId] = useState(sessionStorage.getItem("userId"));
-    const [userFirstName, setUserFirstName] = useState(sessionStorage.getItem("userFirstName"));
-    const [userProfileUrl, setUserProfileUrl] = useState(sessionStorage.getItem("userProfileUrl"));
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!sessionStorage.getItem("authToken"));
+    const [userEmail, setUserEmail] = useState<string | null>(sessionStorage.getItem("userEmail"));
+    const [userName, setUserName] = useState<string | null>(sessionStorage.getItem("userName"));
+    const [userToken, setUserToken] = useState<string | null>(sessionStorage.getItem("authToken"));
+    const [userState, setUserState] = useState<string | null>(sessionStorage.getItem("userState"));
+    const [userPhonenum, setUserPhonenum] = useState<string | null>(sessionStorage.getItem("userPhonenum"));
+    const [userId, setUserId] = useState<string | null>(sessionStorage.getItem("userId"));
+    const [userFirstName, setUserFirstName] = useState<string | null>(sessionStorage.getItem("userFirstName"));
+    const [userProfileUrl, setUserProfileUrl] = useState<string | null>(sessionStorage.getItem("userProfileUrl"));
+    
     const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
+
+    // Sync state with sessionStorage across tabs
+    useEffect(() => {
+        const syncAuthState = () => {
+            setIsAuthenticated(!!sessionStorage.getItem("authToken"));
+            setUserEmail(sessionStorage.getItem("userEmail"));
+            setUserName(sessionStorage.getItem("userName"));
+            setUserToken(sessionStorage.getItem("authToken"));
+            setUserState(sessionStorage.getItem("userState"));
+            setUserPhonenum(sessionStorage.getItem("userPhonenum"));
+            setUserId(sessionStorage.getItem("userId"));
+            setUserFirstName(sessionStorage.getItem("userFirstName"));
+            setUserProfileUrl(sessionStorage.getItem("userProfileUrl"));
+        };
+
+        window.addEventListener("storage", syncAuthState);
+        return () => window.removeEventListener("storage", syncAuthState);
+    }, []);
 
     const login = async (email: string, password: string): Promise<boolean> => {
         try {
@@ -49,9 +64,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
             if (response.status === 200) {
                 const data = await response.json();
-                sessionStorage.setItem("authToken", data.token); // Save the token to sessionStorage
-                sessionStorage.setItem("userEmail", data.email); // Save the email to sessionStorage
-                sessionStorage.setItem("userName", data.username);  // Save the username to sessionStorage
+                sessionStorage.setItem("authToken", data.token);
+                sessionStorage.setItem("userEmail", data.email);
+                sessionStorage.setItem("userName", data.username);
                 sessionStorage.setItem("userPhonenum", data.phonenum);
                 sessionStorage.setItem("userState", data.state);
                 sessionStorage.setItem("userId", data.userid);
@@ -79,10 +94,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     const logout = () => {
-        sessionStorage.removeItem("authToken");
-        sessionStorage.removeItem("userEmail"); // Remove email from sessionStorage on logout
+        sessionStorage.clear(); // Clears all session storage data
         setIsAuthenticated(false);
-        setUserEmail(null); // Reset email state
+        setUserEmail(null);
         setUserName(null);
         setUserId(null);
         setUserToken(null);
@@ -105,7 +119,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             userId,
             userFirstName,
             userProfileUrl,
-            setUserProfileUrl // Corrected property name
+            setUserProfileUrl
         }}>
             {children}
         </AuthContext.Provider>
