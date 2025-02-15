@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 // Define the shape of the context value
 interface AuthContextType {
     isAuthenticated: boolean;
+    setAuthStatus: (status: boolean) => void; // Add this line
     userEmail: string | null;
     userName: string | null;
     userToken: string | null;
@@ -13,8 +14,9 @@ interface AuthContextType {
     userProfileUrl: string | null;
     login: (email: string, password: string) => Promise<boolean>;
     logout: () => void;
-    setUserProfileUrl: (url: string | null) => void; // Corrected property name
+    setUserProfileUrl: (url: string | null) => void;
 }
+
 
 // Create the context with a default value of null
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -28,6 +30,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(
         !!sessionStorage.getItem("authToken")
     );
+
+    const setAuthStatus = (status: boolean) => {
+        setIsAuthenticated(status);
+    };
+    
     // Get user details from sessionStorage
     const [userEmail, setUserEmail] = useState(sessionStorage.getItem("userEmail"));
     const [userName, setUserName] = useState(sessionStorage.getItem("userName"));
@@ -39,6 +46,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [userProfileUrl, setUserProfileUrl] = useState(sessionStorage.getItem("userProfileUrl"));
     const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
 
+     // Sync state with sessionStorage across tabs
+     useEffect(() => {
+        const syncAuthState = () => {
+            setIsAuthenticated(!!sessionStorage.getItem("authToken"));
+            setUserEmail(sessionStorage.getItem("userEmail"));
+            setUserName(sessionStorage.getItem("userName"));
+            setUserToken(sessionStorage.getItem("authToken"));
+            setUserState(sessionStorage.getItem("userState"));
+            setUserPhonenum(sessionStorage.getItem("userPhonenum"));
+            setUserId(sessionStorage.getItem("userId"));
+            setUserFirstName(sessionStorage.getItem("userFirstName"));
+            setUserProfileUrl(sessionStorage.getItem("userProfileUrl"));
+        };
+
+        window.addEventListener("storage", syncAuthState);
+        return () => window.removeEventListener("storage", syncAuthState);
+    }, []);
+
     const login = async (email: string, password: string): Promise<boolean> => {
         try {
             const response = await fetch(`${API_URL}/api/auth/login`, {
@@ -49,9 +74,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
             if (response.status === 200) {
                 const data = await response.json();
-                sessionStorage.setItem("authToken", data.token); // Save the token to sessionStorage
-                sessionStorage.setItem("userEmail", data.email); // Save the email to sessionStorage
-                sessionStorage.setItem("userName", data.username);  // Save the username to sessionStorage
+                sessionStorage.setItem("authToken", data.token);
+                sessionStorage.setItem("userEmail", data.email);
+                sessionStorage.setItem("userName", data.username);
                 sessionStorage.setItem("userPhonenum", data.phonenum);
                 sessionStorage.setItem("userState", data.state);
                 sessionStorage.setItem("userId", data.userid);
@@ -79,10 +104,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     const logout = () => {
-        sessionStorage.removeItem("authToken");
-        sessionStorage.removeItem("userEmail"); // Remove email from sessionStorage on logout
+        sessionStorage.clear(); // Clears all session storage data
         setIsAuthenticated(false);
-        setUserEmail(null); // Reset email state
+        setUserEmail(null);
         setUserName(null);
         setUserId(null);
         setUserToken(null);
@@ -95,6 +119,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return (
         <AuthContext.Provider value={{
             isAuthenticated,
+            setAuthStatus, // Add this
             userEmail,
             login,
             logout,
@@ -105,8 +130,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             userId,
             userFirstName,
             userProfileUrl,
-            setUserProfileUrl // Corrected property name
+            setUserProfileUrl
         }}>
+        
             {children}
         </AuthContext.Provider>
     );
