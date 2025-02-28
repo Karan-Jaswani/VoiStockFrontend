@@ -202,6 +202,7 @@ const Invoice: React.FC = () => {
       ifsc:companyDetails?.ifscCode,
       accountNo:companyDetails?.accountNo,
       branch:companyDetails?.bankBranchName,
+      upiId:companyDetails?.upiId,
 
     };
     
