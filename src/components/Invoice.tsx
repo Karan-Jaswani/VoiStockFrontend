@@ -198,6 +198,8 @@ const Invoice: React.FC = () => {
       stockQuantity: formData.items.map(item => item.quantity), // Extract quantities
       stockRate: formData.items.map(item => item.rate), // Extract rates
       stockAmount: formData.items.map(item => item.amount), // Extract amounts
+      bankName:companyDetails?.bankName,
+      ifsc:companyDetails?.ifscCode,
     };
     
     if (formData.items.length < 1) {
