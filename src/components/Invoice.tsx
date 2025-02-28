@@ -200,6 +200,9 @@ const Invoice: React.FC = () => {
       stockAmount: formData.items.map(item => item.amount), // Extract amounts
       bankName:companyDetails?.bankName,
       ifsc:companyDetails?.ifscCode,
+      accountNumber:companyDetails?.accountNumber,
+      bankAddress:companyDetails?.bankAddress,
+      
     };
     
     if (formData.items.length < 1) {
