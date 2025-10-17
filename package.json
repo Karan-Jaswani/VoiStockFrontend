@@ -10,7 +10,7 @@
     "@mui/icons-material": "^6.4.3",
     "@mui/material": "^6.4.3",
     "adj": "^0.0.1-beta.1",
-    "axios": "^1.7.9",
+    "axios": "^1.12.2",
     "cra-template-typescript": "1.2.0",
     "invoice_app": "file:",
     "js-cookie": "^3.0.5",
@@ -24,8 +24,10 @@
     "rsuite": "^5.77.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -51,7 +53,11 @@
     "@types/js-cookie": "^3.0.6",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
+    "@vitejs/plugin-react": "^5.0.4",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.30",
     "tailwindcss": "^3.4.17",
+    "vite": "^5.4.20",
     "web-vitals": "^4.2.4"
   }
 }

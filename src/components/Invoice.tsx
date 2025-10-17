@@ -55,7 +55,7 @@ const Invoice: React.FC = () => {
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [companyDetails, setCompanyDetails] = useState<CompanyDetails | null>(null);
   const { userId } = useAuth();
-  const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
+  const API_URL = import.meta.env.VITE_VOISTOCK_API_URL || '';
 
   useEffect(() => {
     const fetchItems = async () => {

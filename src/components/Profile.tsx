@@ -23,7 +23,7 @@ export const Profile: React.FC = () => {
 
     const [userData, setUserData] = useState<UserData | null>(null); // Set initial state to 
     // null
-    const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
+    const API_URL = import.meta.env.VITE_VOISTOCK_API_URL || '';
 
     useEffect(() => {
         const fetchUserData = async () => {

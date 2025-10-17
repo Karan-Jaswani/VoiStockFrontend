@@ -9,7 +9,7 @@ export const StockDashboard = () => {
     const [items, setItems] = useState<{ id?: number; brandName: string; itemName: string; batchNo: string; quantity: number; price: number}[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [itemToEdit, setItemToEdit] = useState<{ id?: number; brandName: string; itemName: string; batchNo: string; quantity: number; price: number } | null>(null);
-    const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
+    const API_URL = import.meta.env.VITE_VOISTOCK_API_URL || '';
 
     // ✅ Fetch stock data when page loads
     useEffect(() => {

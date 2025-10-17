@@ -13,7 +13,7 @@ export const Signup = () => {
     const [message, setMessage] = useState("");
     const [showPassword] = useState(false); // State for password visibility
     const [termsChecked, setTermsChecked] = useState(false); // State for terms checkbox
-    const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
+    const API_URL = import.meta.env.VITE_VOISTOCK_API_URL || '';
 
     // const apiUrl = process.env.REACT_APP_ENV === 'production'
     //     ? process.env.REACT_APP_LIVE_API

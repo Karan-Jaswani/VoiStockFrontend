@@ -26,7 +26,7 @@ const ShowDeliveryChallans: React.FC = () => {
     const [selectedChallan, setSelectedChallan] = useState<DeliveryChallan | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const { userId } = useAuth();
-    const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
+    const API_URL = import.meta.env.VITE_VOISTOCK_API_URL || '';
 
     // Fetch all delivery challans from the backend
     useEffect(() => {

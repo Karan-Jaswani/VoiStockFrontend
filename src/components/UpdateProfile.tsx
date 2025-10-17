@@ -18,7 +18,7 @@ export const UpdateProfile: React.FC = () => {
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
-  const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
+  const API_URL = import.meta.env.VITE_VOISTOCK_API_URL || '';
 
   useEffect(() => {
     const fetchUserData = async () => {

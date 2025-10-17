@@ -33,8 +33,8 @@ export const Navbar: React.FC = () => {
     const [userData, setUserData] = useState<UserData | null>(null);
     const { isAuthenticated } = useAuth();
     const navigate = useNavigate();
-    const APP_LOGO_URL = process.env.REACT_APP_LOGO_URL;
-    const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
+    const APP_LOGO_URL = import.meta.env.VITE_LOGO_URL || '';
+    const API_URL = import.meta.env.VITE_VOISTOCK_API_URL || '';
     const { setAuthStatus } = useAuth();
 
     useEffect(() => {
@@ -86,12 +86,12 @@ export const Navbar: React.FC = () => {
                     </div>
                     <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                         <div className="flex shrink-0 items-center">
-                            <a href='/'>
-                                <img
-                                    alt="Your Company"
-                                    src={APP_LOGO_URL}
-                                    className="h-16 w-auto"
-                                />
+                            <a href="/">
+                                {APP_LOGO_URL ? (
+                                    <img alt="Your Company" src={APP_LOGO_URL} className="h-16 w-auto" />
+                                ) : (
+                                    <div className="h-16 flex items-center text-white font-semibold">VoiStock</div>
+                                )}
                             </a>
                         </div>
                         <div className="hidden mt-4 sm:ml-6 sm:block">

@@ -61,7 +61,7 @@ const DeliveryChallan: React.FC = () => {
     const [quantity, setQuantity] = useState<number>(1);
     const [submitted, setSubmitted] = useState<boolean>(false);
     const [companyDetails, setCompanyDetails] = useState<CompanyDetails | null>(null);
-    const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
+    const API_URL = import.meta.env.VITE_VOISTOCK_API_URL || '';
     const updatedAvailableItems = [...availableItems];
 
     useEffect(() => {

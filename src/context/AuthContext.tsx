@@ -44,7 +44,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [userId, setUserId] = useState(sessionStorage.getItem("userId"));
     const [userFirstName, setUserFirstName] = useState(sessionStorage.getItem("userFirstName"));
     const [userProfileUrl, setUserProfileUrl] = useState(sessionStorage.getItem("userProfileUrl"));
-    const API_URL = process.env.REACT_APP_VOISTOCK_API_URL;
+    const API_URL = import.meta.env.VITE_VOISTOCK_API_URL || '';
 
      // Sync state with sessionStorage across tabs
      useEffect(() => {
