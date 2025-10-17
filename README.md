@@ -1,58 +1,95 @@
-# Getting Started with Create React App
+# VoiStock — Professional Invoicing & Stock Management
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+VoiStock is a production-grade invoicing and stock-management frontend I use professionally. It provides a focused UI for creating invoices, managing delivery challans, and tracking stock. The frontend is built with modern web tooling for fast iteration and a polished UX.
+
+Quick overview
+
+- Stack: React 19 + TypeScript, Vite, Tailwind CSS.
+- Features: user auth, profiles, company details, invoice creation, delivery challans, stock dashboard, print/export.
+- Designed for: small businesses, freelancers, and internal teams needing a simple invoicing workflow.
+
+Getting started (developer)
+
+1. Clone the repository:
+
+	git clone https://github.com/Karan-Jaswani/VoiStockFrontend.git
+	cd VoiStockFrontend
+
+2. Create your local env file from the example and set the backend URL:
+
+	cp .env.example .env.local
+
+	Edit .env.local and set `VITE_VOISTOCK_API_URL`
+
+3. Install and run:
+
+	npm install
+	npm run dev
+
+Open http://localhost:5173 to use the app.
 
 
-## Available Scripts (Vite)
 
-In the project directory, you can run:
+## Table of contents
 
-### `npm run dev`
+- [Demo / Screenshot](#demo--screenshot)
+- [Feature tour](#feature-tour)
+- [Quick start](#getting-started-developer)
+- [API examples](#api-examples)
+- [Troubleshooting](#troubleshooting)
+- [Contribute & contact](#contribute--contact)
 
-Runs the app in development mode using Vite. Open the URL printed in the terminal (usually http://localhost:5173).
+## Demo / Screenshot
 
-### `npm run build`
+Below is a quick visual of the main dashboard. This is a screenshot mock to give visitors a preview of the UI.
 
-Builds the app for production to the `dist` folder using Vite.
+![VoiStock dashboard](assets/dashboard.png)
 
-### `npm run preview`
+## Feature tour
 
-Locally preview the production build.
+This project contains the frontend features I rely on daily:
 
-Notes:
-- `index.html` is now at the project root and loads `/src/index.tsx` as a module.
-- Static assets in the `public` folder are served at the root (use absolute paths like `/favicon.ico`).
+- Authentication and session management (JWT stored in session storage).
+- Company profile with bank details used for invoice templates and payment fields.
+- Create, print, and export invoices (A4-ready print styling included).
+- Delivery challan creation and printing.
+- Stock dashboard showing current inventory, quantities and quick updates.
+- Search and lists for invoices and delivery challans with pagination.
 
-## Learn More
+## API examples
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The frontend communicates with a backend API. Set `VITE_VOISTOCK_API_URL` in your `.env.local` to point to your backend.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Example: fetch stocks for a user
 
-## Security & publishing (what to push to GitHub)
+```bash
+curl -X GET "${VITE_VOISTOCK_API_URL}/api/stocks/:userId" \
+	-H "Accept: application/json"
+```
 
-- Do NOT commit any `.env` files containing secrets or private API keys. This repo includes a `.env.example` with safe placeholder values. Copy it to `.env.local` or `.env` and fill in your real values locally.
-- The `.gitignore` file already excludes `.env*`, `node_modules`, and build outputs (`dist`, `build`).
-- Before pushing to GitHub, ensure you haven't accidentally committed secrets. If you have, remove them from the repo history (see steps below).
+Example: submit an invoice
 
-If you accidentally committed a secret and pushed it, follow these steps locally to remove it from history (WARNING: rewriting history will change commit SHAs):
+```bash
+curl -X POST "${VITE_VOISTOCK_API_URL}/api/invoice" \
+	-H "Content-Type: application/json" \
+	-d '{ "invoice": { "invoiceNo": "INV-001", "clientName": "Acme" }, "stockUpdates": [] }'
+```
 
-1. Remove the file and commit:
+These are examples only — check your backend's API docs for exact field names and auth requirements.
 
-	git rm --cached .env
-	git commit -m "remove .env"
+## Troubleshooting
 
-2. Remove the file from all history using the `git filter-branch` or `git filter-repo` tool. For small repos you can use:
+If you hit issues when running the project locally, try these quick checks:
 
-	git filter-branch --force --index-filter "git rm --cached --ignore-unmatch .env" --prune-empty --tag-name-filter cat -- --all
+- White page / runtime error referencing `process` — Ensure you use Vite env vars (`VITE_...`) and restart the dev server.
+- Tailwind styles not applying — run `npm install` to ensure `postcss` and `autoprefixer` are installed, then restart the dev server.
+- Backend CORS errors — enable appropriate CORS headers on the backend for your dev origin (http://localhost:5173).
+- Missing logo or assets — place static images in `public/` and reference them with absolute paths (`/VoiStock_Logo.png`).
 
-3. Force-push the cleaned history:
+## Contribute & contact
 
-	git push origin --force --all
+- This frontend is used professionally. If you'd like to reuse code, please reach out on LinkedIn so we can discuss licensing and collaboration.
+- For bug reports or feature requests, open an issue on this repository.
 
-Note: If you are unsure about rewriting history, create a new repository and push a fresh clean copy.
 
-When sharing the project publicly (LinkedIn/GitHub):
-
-- Share only this repository (with `.env` ignored). Use `.env.example` to show what variables are required.
-- Remove or redact any private endpoints, credentials, or internal company data before publishing.
+## Thank You!
