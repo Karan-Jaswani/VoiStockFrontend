@@ -21,6 +21,8 @@ Getting started (developer)
 
 	Edit .env.local and set `VITE_VOISTOCK_API_URL`
 
+	#### The backend code lives in a separate repository: [Backend Repository](https://github.com/Karan-Jaswani/VoiStockBackend)
+	
 3. Install and run:
 
 	npm install
@@ -90,6 +92,10 @@ If you hit issues when running the project locally, try these quick checks:
 
 - This frontend is used professionally. If you'd like to reuse code, please reach out on LinkedIn so we can discuss licensing and collaboration.
 - For bug reports or feature requests, open an issue on this repository.
+
+## Backend repository:
+
+[Backend Repository](https://github.com/Karan-Jaswani/VoiStockBackend)
 
 
 ## Thank You!
